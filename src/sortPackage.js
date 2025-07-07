@@ -1,8 +1,20 @@
+/* -------------------------------- */
+/* Constants 						*/
+/* -------------------------------- */
 export const THRESHOLDS = Object.freeze({
 	MASS_HEAVY: 20, // kilograms (kg)
 	DIMENSION_BULKY: 150, // centimeters (cm)
 	VOLUME_BULKY: 1_000_000, // centimeters cubed (cm^3)
 });
+
+/** @typedef {'STANDARD' | 'SPECIAL' | 'REJECTED'} StackName */
+/**
+ * @typedef {Object} PackageInput
+ * @property {number} height   	- centimeters (cm)
+ * @property {number} width 	- centimeters (cm)
+ * @property {number} length 	- centimeters (cm)
+ * @property {number} mass 		- kilograms (kg)
+ */
 
 export const SORT_STACKS = /** @type {const} */ Object.freeze({
 	REJECTED: "REJECTED",
@@ -12,7 +24,16 @@ export const SORT_STACKS = /** @type {const} */ Object.freeze({
 
 const REQUIRED_KEYS = ["height", "width", "length", "mass"];
 
+/* -------------------------------- */
+/* Helper Functions 				*/
+/* -------------------------------- */
 const isNumValid = num => typeof num === "number" && Number.isFinite(num) && num > 0;
+
+/**
+ * Validate presence and numeric quality of every required field.
+ * @param {PackageInput} pkg
+ * @throws {TypeError} if a field is missing or invalid.
+ */
 const validatePackageInput = (pkg /** @type {PackageInput} */) => {
 	const invalidInputs = REQUIRED_KEYS.flatMap(key => {
 		if (!(key in pkg)) return [`${key}: <missing>`];
@@ -29,11 +50,22 @@ const validatePackageInput = (pkg /** @type {PackageInput} */) => {
 };
 
 const volume = ({ height, width, length }) => height * width * length;
+
 const isBulky = ({ height, width, length }) =>
 	Math.max(height, width, length) >= THRESHOLDS.DIMENSION_BULKY ||
 	volume({ height, width, length }) >= THRESHOLDS.VOLUME_BULKY;
+
 const isHeavy = mass => mass >= THRESHOLDS.MASS_HEAVY;
 
+/* -------------------------------- */
+/* Public API 						*/
+/* -------------------------------- */
+/**
+ * Decide which stack the package belongs to.
+ *
+ * @param {PackageInput} pkg
+ * @returns {StackName}
+ */
 export default function sortPackage(pkg) {
 	validatePackageInput(pkg);
 
