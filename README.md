@@ -1,5 +1,7 @@
 # 📦 Robo Sort - Package Sorter
 
+> **Public Repl.it:** https://replit.com/@richarddavisdev/robo-sort
+
 Tiny ESM utility that tells Thoughtful’s robot arm what stack a parcel goes:
 
 -   **STANDARD** – light & compact
