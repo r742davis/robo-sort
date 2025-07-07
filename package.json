@@ -1,0 +1,21 @@
+{
+  "name": "robo-sort",
+  "version": "1.0.0",
+  "description": "Sorting functionality package for Thoughtful AI application",
+  "type": "module",
+  "main": "./src/sortPackage.js",
+  "exports": {
+    ".": "./src/sortPackage.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+  },
+  "author": "Richard Davis",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.0.4"
+  }
+}
